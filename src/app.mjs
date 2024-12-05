@@ -5,7 +5,6 @@ import auth from "./middlewares/auth.js";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import mysql from "mysql2";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const bodyParser = require("body-parser");
@@ -38,14 +37,13 @@ mongoose
 // Rota para registro de usuário
 app.post("/auth/registro", async (req, res) => {
   const { name, email, password, confirmpassword } = req.body;
-
   if (!name) {
     return res.status(422).json({ msg: "O nome é obrigatório!" });
   }
   if (!email) {
     return res.status(422).json({ msg: "O email é obrigatório!" });
   }
-  if (!password) {
+  if (!password) { 
     return res.status(422).json({ msg: "A senha é obrigatória!" });
   }
   if (password !== confirmpassword) {
@@ -68,7 +66,7 @@ app.post("/auth/registro", async (req, res) => {
   });
   try {
     await usuario.save();
-    res.status(201).json({ msg: "Usuário criado!" }).redirect("/login");
+    res.status(201).json({ msg: "Usuário criado!" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Deu pau no BD" });
@@ -91,7 +89,7 @@ app.post("/auth/login", async (req, res) => {
     return res.status(404).json({ msg: "Usuário não encontrado!" });
   }
 
-  const checkpassword = bcrypt.compare(password, usuario.password);
+  const checkpassword = await bcrypt.compare(password, usuario.password);
   if (!checkpassword) {
     return res.status(422).json({ msg: "Senha inválida!" });
   }

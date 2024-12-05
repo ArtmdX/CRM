@@ -16,10 +16,10 @@
       <div class="min-h-screen flex items-center justify-center">
         <div class="bg-white p-10 rounded-lg shadow-md w-full max-w-sm">
           <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Registrar</h2>
-          <form action="/auth/registro" method="POST">
+          <form action="/auth/registro" id="form-registro" method="POST">
             <div class="mb-8">
               <label class="block text-sm font-medium text-gray-700">Nome Completo</label>
-              <input type="email" id="email" name="email" required
+              <input type="text" id="name" name="name" required
                 class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300">
             </div>
             <div class="mb-8">
@@ -29,12 +29,12 @@
             </div>
             <div class="mb-8">
               <label class="block text-sm font-medium text-gray-700">Senha</label>
-              <input type="email" id="email" name="email" required
+              <input type="password" id="password" name="password" required
                 class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300">
             </div>
             <div class="mb-12">
               <label class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
-              <input type="password" id="password" name="password" required
+              <input type="password" id="confirmpassword" name="confirmpassword" required
                 class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300">
             </div>
             <button type="submit"
@@ -42,6 +42,9 @@
               Registrar
             </button>
           </form>
+          <p class="mt-4 text-sm text-gray-600 text-center">
+            Já possui uma conta? <a href="/" class="text-blue-500 hover:underline">Faça o login</a>
+          </p>
         </div>
       </div>
       
