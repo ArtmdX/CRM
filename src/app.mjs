@@ -39,7 +39,6 @@ mongoose
 app.post("/auth/registro", async (req, res) => {
   const { name, email, password, confirmpassword } = req.body;
 
-  // Checagem de campo vazio
   if (!name) {
     return res.status(422).json({ msg: "O nome é obrigatório!" });
   }
@@ -53,17 +52,15 @@ app.post("/auth/registro", async (req, res) => {
     return res.status(422).json({ msg: "As senhas não coincidem!" });
   }
 
-  //Checagem de usuário existente
   const usuarioExiste = await Usuario.findOne({ email: email });
   if (usuarioExiste) {
     return res.status(422).json({ msg: "Email Já cadastrado!" });
   }
 
-  //Criar senha
+
   const salt = await bcrypt.genSalt(12);
   const passwordHash = await bcrypt.hash(password, salt);
 
-  //Criar Usuario
   const usuario = new Usuario({
     name,
     email,
@@ -82,7 +79,6 @@ app.post("/auth/registro", async (req, res) => {
 app.post("/auth/login", async (req, res) => {
   const { email, password } = req.body;
 
-  // Checagem de campo vazio
   if (!email) {
     return res.status(422).json({ msg: "O email é obrigatório!" });
   }
@@ -90,13 +86,11 @@ app.post("/auth/login", async (req, res) => {
     return res.status(422).json({ msg: "A senha é obrigatória!" });
   }
 
-  //Checar se o usuário existe
   const usuario = await Usuario.findOne({ email: email });
   if (!usuario) {
     return res.status(404).json({ msg: "Usuário não encontrado!" });
   }
 
-  //Checar se a senha está correta
   const checkpassword = bcrypt.compare(password, usuario.password);
   if (!checkpassword) {
     return res.status(422).json({ msg: "Senha inválida!" });
@@ -286,22 +280,19 @@ app.post("/mensagens/enviar", auth.checkToken, async (req, res) => {
   const { mensagemId, clientesIds } = req.body;
 
   try {
-    // Busca o template da mensagem
     const mensagem = await Mensagem.findById(mensagemId);
     if (!mensagem) {
       return res.status(404).send("Template de mensagem não encontrado.");
     }
 
-    // Busca os clientes selecionados
+
     const clientes = await Cliente.find({ _id: { $in: clientesIds } }).select("telefone nome");
     if (!clientes.length) {
       return res.status(404).send("Nenhum cliente válido encontrado.");
     }
 
-    // Lista de telefones no formato necessário
     const telefones = clientes.map((cliente) => cliente.telefone);
 
-    // Envia a mensagem pelo Gzappy
     await gClient.sendMessage([mensagem.corpo], telefones);
 
     const ultimo_contato = dataAtual();
@@ -312,7 +303,7 @@ app.post("/mensagens/enviar", auth.checkToken, async (req, res) => {
     res.status(500).send("Erro ao processar o envio de mensagens.");
   }
 });
-//Atualiza o ultimo contato dos clientes
+
 
 //Paginas
 app.get("/dashboard", (request, response, next) => {

@@ -69,12 +69,10 @@ async function removerClientes() {
       });
     });
     
-    // Aguarda todas as promessas de exclusão serem resolvidas
     await Promise.all(promises);
     
     alert("Clientes excluídos com sucesso!");
-    // Atualizar a tabela de clientes, se necessário
-    // Você pode chamar uma função para recarregar a lista de clientes aqui
+
     carregarClientes();
   } catch (error) {
     console.error("Erro ao excluir clientes:", error);
@@ -125,10 +123,10 @@ function abrirModalTags(event, clienteId) {
   event.stopPropagation();
   document.getElementById("tags-modal").classList.remove("hidden");
   
-  // Adiciona ID do cliente ao botão e ao modal para associação de tags
+
   const atribuirTagButton = document.getElementById("atribuir-tag-button");
   atribuirTagButton.onclick = () => atribuirTag(clienteId);
-  // Carrega as tags disponíveis e já atribuídas
+
   carregarTags();
 }
 
@@ -155,8 +153,8 @@ function abrirModalEditar(id_cliente) {
     document.getElementById("nomeCliente").value = cliente.nome;
     document.getElementById("telefoneCliente").value = cliente.telefone;
     document.getElementById("emailCliente").value = cliente.email;
-    document.getElementById("idCliente").value = cliente._id; // ID do cliente
-    document.getElementById("modalEditar").classList.remove("hidden"); // Exibir modal
+    document.getElementById("idCliente").value = cliente._id; 
+    document.getElementById("modalEditar").classList.remove("hidden"); 
   })
   .catch((error) => {
     console.error("Erro ao buscar dados do cliente:", error);
@@ -186,8 +184,8 @@ function salvarEdicoes() {
   })
   .then((data) => {
     alert("Cliente atualizado com sucesso!");
-    carregarClientes(); // Atualiza a tabela de clientes
-      fecharModalEditar(); // Fecha o modal
+    carregarClientes(); 
+      fecharModalEditar(); 
     })
     .catch((error) => {
       console.error("Erro ao atualizar cliente:", error);
@@ -254,7 +252,6 @@ function salvarEdicoes() {
       return alert("Selecione uma tag para atribuir!");
     }
     try {
-      // Envia requisição para atribuir a tag
       const response = await fetch(`/tag/${clienteId}`, {
         method: "POST",
         headers: {
@@ -267,7 +264,6 @@ function salvarEdicoes() {
       if (!response.ok) {
         const errorText = await response.text();
         if (response.status === 409) {
-          // 409 Conflict indica que a tag já está atribuída
           return alert("Tag já atribuída ao cliente.");
         }
         throw new Error(`Erro ao atribuir tag: ${response.status} - ${errorText}`);
@@ -427,15 +423,13 @@ const atualizarListenersCheckboxes = () => {
   const updateButtonState = () => {
     const anyChecked = Array.from(checkboxes).some((checkbox) => checkbox.checked);
     buttons.forEach((button) => {
-      button.disabled = !anyChecked; // Habilita ou desabilita os botões
+      button.disabled = !anyChecked; 
     });
   };
 
-  // Adiciona o listener para cada checkbox
   checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", updateButtonState);
   });
 
-  // Chama a função para definir o estado dos botões
   updateButtonState();
 };

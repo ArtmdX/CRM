@@ -16,7 +16,6 @@
     "gzappy-js": "^0.0.18",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.2",
-    "mysql2": "^3.11.3",
     "node-fetch": "^3.3.2"
   }
 }
