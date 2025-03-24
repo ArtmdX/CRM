@@ -43,7 +43,7 @@ app.post("/auth/registro", async (req, res) => {
   if (!email) {
     return res.status(422).json({ msg: "O email é obrigatório!" });
   }
-  if (!password) { 
+  if (!password) {
     return res.status(422).json({ msg: "A senha é obrigatória!" });
   }
   if (password !== confirmpassword) {
@@ -54,7 +54,6 @@ app.post("/auth/registro", async (req, res) => {
   if (usuarioExiste) {
     return res.status(422).json({ msg: "Email Já cadastrado!" });
   }
-
 
   const salt = await bcrypt.genSalt(12);
   const passwordHash = await bcrypt.hash(password, salt);
@@ -283,7 +282,6 @@ app.post("/mensagens/enviar", auth.checkToken, async (req, res) => {
       return res.status(404).send("Template de mensagem não encontrado.");
     }
 
-
     const clientes = await Cliente.find({ _id: { $in: clientesIds } }).select("telefone nome");
     if (!clientes.length) {
       return res.status(404).send("Nenhum cliente válido encontrado.");
@@ -301,7 +299,6 @@ app.post("/mensagens/enviar", auth.checkToken, async (req, res) => {
     res.status(500).send("Erro ao processar o envio de mensagens.");
   }
 });
-
 
 //Paginas
 app.get("/dashboard", (request, response, next) => {
